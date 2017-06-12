@@ -1,0 +1,43 @@
+---
+- name: Lookup root's primary group
+  shell: id -gn root
+  register: vault_root_group
+
+- include: "{{ansible_os_family|lower}}.yml"
+
+- name: Create Installation Directories
+  file:
+    name: "{{item}}"
+    state: directory
+    recurse: yes
+    owner: root
+    group: "{{vault_root_group.stdout}}"
+    mode: "0755"
+  become: yes
+  with_items:
+    - "{{vault_root}}"
+    - "{{vault_install_dir}}"
+    - "{{vault_bin_dir}}"
+
+- name: Install Vault
+  unarchive:
+    src: "https://releases.hashicorp.com/vault/{{vault_version}}/vault_{{vault_version}}_{{ansible_system|lower}}_amd64.zip"
+    dest: "/opt/vault/{{vault_version}}/"
+    remote_src: yes
+  become: yes
+
+- name: Link vault into {{vault_bin_dir}}
+  file:
+    src: "{{vault_install_dir}}/vault"
+    dest: "{{vault_bin_dir}}/vault"
+    state: link
+  become: yes
+
+- name: Add vault $PATH to system bash profile
+  template:
+    src: vault.sh.j2
+    dest: "{{vault_profile_path[ansible_os_family]}}/vault.sh"
+    owner: root
+    group: "{{vault_root_group.stdout}}"
+    mode: "0644"
+  become: yes

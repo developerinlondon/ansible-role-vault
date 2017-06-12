@@ -1,0 +1,4 @@
+---
+- name: Install unzip
+  debug:
+    msg: macOS already has unzip installed
