@@ -13,7 +13,6 @@
     owner: root
     group: "{{vault_root_group.stdout}}"
     mode: "0755"
-  become: yes
   with_items:
     - "{{vault_root}}"
     - "{{vault_install_dir}}"
@@ -24,14 +23,12 @@
     src: "https://releases.hashicorp.com/vault/{{vault_version}}/vault_{{vault_version}}_{{ansible_system|lower}}_amd64.zip"
     dest: "/opt/vault/{{vault_version}}/"
     remote_src: yes
-  become: yes
 
 - name: Link vault into {{vault_bin_dir}}
   file:
     src: "{{vault_install_dir}}/vault"
     dest: "{{vault_bin_dir}}/vault"
     state: link
-  become: yes
 
 - name: Add vault $PATH to system bash profile
   template:
@@ -40,4 +37,3 @@
     owner: root
     group: "{{vault_root_group.stdout}}"
     mode: "0644"
-  become: yes
