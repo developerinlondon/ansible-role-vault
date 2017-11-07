@@ -1,6 +1,6 @@
 ---
 # defaults file for ansible-role-vault
-vault_version: "0.7.3"
+vault_version: "0.8.3"
 vault_root: /opt/vault
 vault_install_dir: "{{vault_root}}/{{vault_version}}"
 vault_bin_dir: /opt/bin
