@@ -3,7 +3,7 @@
   shell: id -gn root
   register: vault_root_group
 
-- include: "{{ansible_os_family|lower}}.yml"
+- import_tasks: "{{ansible_os_family|lower}}.yml"
 
 - name: Create Installation Directories
   file:
