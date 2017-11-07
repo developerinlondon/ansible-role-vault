@@ -20,11 +20,11 @@
 #     remote_src: yes
 
 - name: Download Vault
-  command: wget -q https://releases.hashicorp.com/vault/{{vault_version}}/vault_{{vault_version}}_{{ansible_system|lower}}_amd64.zip -O /opt/vault/{{vault_version}}/vault_{{vault_version}}_{{ansible_system|lower}}_amd64.zip
+  command: wget -q https://releases.hashicorp.com/vault/{{vault_version}}/vault_{{vault_version}}_{{ansible_system|lower}}_amd64.zip -O {{vault_temp_dir}}/vault_{{vault_version}}_{{ansible_system|lower}}_amd64.zip
 
 - name: Install Vault
   unarchive:
-    src: "{{vault_install_dir}}/vault_{{vault_version}}_{{ansible_system|lower}}_amd64.zip"
+    src: "{{vault_temp_dir}}/vault_{{vault_version}}_{{ansible_system|lower}}_amd64.zip"
     dest: "{{vault_install_dir}}/"
 
 - name: Link vault into {{vault_bin_dir}}
@@ -37,4 +37,4 @@
   template:
     src: vault.sh.j2
     dest: "{{vault_profile_path[ansible_os_family]}}/vault.sh"
-    mode: "0644"
+    mode: "0755"
