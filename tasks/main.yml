@@ -6,7 +6,6 @@
     name: "{{item}}"
     state: directory
     recurse: yes
-    mode: "0755"
   with_items:
     - "{{vault_root}}"
     - "{{vault_install_dir}}"
