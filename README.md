@@ -11,7 +11,7 @@ None
 Role Variables
 --------------
 
-vault_version: "0.7.3" [default]
+vault_version: "0.8.3" [default]
 
 Dependencies
 ------------
